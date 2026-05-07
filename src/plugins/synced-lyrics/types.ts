@@ -10,10 +10,13 @@ export type SyncedLyricsPluginConfig = {
   showLyricsEvenIfInexact: boolean;
   lineEffect: LineEffect;
   romanization: boolean;
+  useYTMLyricsWithoutProxy: boolean;
   convertChineseCharacter?:
     | 'simplifiedToTraditional'
     | 'traditionalToSimplified'
     | 'disabled';
+  autoSkipLanguages: string;
+  autoDislikeSkippedLanguages: boolean;
 };
 
 export type LineLyricsStatus = 'previous' | 'current' | 'upcoming';
@@ -35,6 +38,7 @@ export interface LyricResult {
 
   lyrics?: string;
   lines?: LineLyrics[];
+  language?: string;
 }
 
 // prettier-ignore

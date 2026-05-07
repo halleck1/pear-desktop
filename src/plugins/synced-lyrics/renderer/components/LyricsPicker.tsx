@@ -59,7 +59,6 @@ const shouldSwitchProvider = (providerData: ProviderState) => {
 const providerBias = (p: ProviderName) =>
   (lyricsStore.lyrics[p].state === 'done' ? 1 : -1) +
   (lyricsStore.lyrics[p].data?.lines?.length ? 2 : -1) +
-  // eslint-disable-next-line prettier/prettier
   (lyricsStore.lyrics[p].data?.lines?.length && p === ProviderNames.YTMusic
     ? 1
     : 0) +
@@ -260,10 +259,17 @@ export const LyricsPicker = (props: {
                     />
                   </Match>
                 </Switch>
-                <yt-formatted-string
-                  class="description ytmusic-description-shelf-renderer"
-                  text={{ runs: [{ text: provider() }] }}
-                />
+                <div class="provider-info">
+                  <yt-formatted-string
+                    class="description ytmusic-description-shelf-renderer"
+                    text={{ runs: [{ text: provider() }] }}
+                  />
+                  <Show when={currentLyrics().data?.language}>
+                    <span class="language-badge">
+                      {currentLyrics().data?.language?.toUpperCase()}
+                    </span>
+                  </Show>
+                </div>
                 <mdui-button-icon onClick={toggleStar} tabindex={-1}>
                   <Show
                     fallback={
