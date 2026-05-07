@@ -24,6 +24,7 @@ export default createPlugin({
     romanization: true,
     autoSkipLanguages: '',
     autoDislikeSkippedLanguages: false,
+    useYTMLyricsWithoutProxy: false,
   } satisfies SyncedLyricsPluginConfig as SyncedLyricsPluginConfig,
 
   menu,
