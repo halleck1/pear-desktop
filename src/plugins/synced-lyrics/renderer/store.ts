@@ -72,6 +72,7 @@ interface SearchCache {
 }
 
 // TODO: Maybe use localStorage for the cache.
+const searchCache = new Map<VideoId, SearchCache>();
 
 /**
  * Detects the language of lyrics and adds it to the result.
