@@ -8,7 +8,12 @@ import { backend } from './backend';
 
 import type { SyncedLyricsPluginConfig } from './types';
 
-export default createPlugin({
+export default createPlugin<
+  typeof backend,
+  unknown,
+  typeof renderer,
+  SyncedLyricsPluginConfig
+>({
   name: () => t('plugins.synced-lyrics.name'),
   description: () => t('plugins.synced-lyrics.description'),
   authors: ['Non0reo', 'ArjixWasTaken', 'KimJammer', 'Strvm'],
@@ -25,7 +30,7 @@ export default createPlugin({
     autoSkipLanguages: '',
     autoDislikeSkippedLanguages: false,
     useYTMLyricsWithoutProxy: false,
-  } satisfies SyncedLyricsPluginConfig as SyncedLyricsPluginConfig,
+  },
 
   menu,
   renderer,
