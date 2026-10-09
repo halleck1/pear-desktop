@@ -3,14 +3,11 @@ import {
   createSignal,
   onCleanup,
   onMount,
+  runWithOwner,
   Show,
   untrack,
 } from 'solid-js';
 import { type VirtualizerHandle, VList } from 'virtua/solid';
-
-import { LyricsPicker } from './components/LyricsPicker';
-
-import { selectors } from './utils';
 
 import {
   ErrorDisplay,
@@ -19,9 +16,10 @@ import {
   SyncedLine,
   PlainLyrics,
 } from './components';
-
+import { LyricsPicker } from './components/LyricsPicker';
+import { reactiveOwner } from './reactive-root';
 import { bestLanguageResult, currentLyrics } from './store';
-
+import { selectors } from './utils';
 import { getSongInfo } from '@/providers/song-info-front';
 import { t } from '@/i18n';
 
@@ -33,6 +31,7 @@ export const [isVisible, setIsVisible] = createSignal<boolean>(false);
 export const [config, setConfig] =
   createSignal<SyncedLyricsPluginConfig | null>(null);
 
+runWithOwner(reactiveOwner, () => {
 createEffect(() => {
   if (!config()?.enabled) return;
   const root = document.documentElement;
@@ -195,6 +194,7 @@ createEffect(() => {
       }
     }, 500);
   }
+});
 });
 
 type LyricsRendererChild =

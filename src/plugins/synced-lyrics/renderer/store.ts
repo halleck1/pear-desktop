@@ -1,8 +1,10 @@
+import { createMemo, runWithOwner } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { createMemo } from 'solid-js';
 import { detect } from 'tinyld';
 
 import { getSongInfo } from '@/providers/song-info-front';
+
+import { reactiveOwner } from './reactive-root';
 
 import {
   type ProviderName,
@@ -37,11 +39,12 @@ export const [lyricsStore, setLyricsStore] = createStore<LyricsStore>({
   },
 });
 
-export const currentLyrics = createMemo(() => {
+export const currentLyrics = runWithOwner(reactiveOwner, () =>
+  createMemo(() => {
   const provider = lyricsStore.provider;
   return lyricsStore.lyrics[provider];
-});
-
+  }),
+)!;
 /**
  * Returns the best available provider result that has a detected language,
  * without requiring lyricsStore.provider to have been set by LyricsPicker.
@@ -69,7 +72,6 @@ interface SearchCache {
 }
 
 // TODO: Maybe use localStorage for the cache.
-const searchCache = new Map<VideoId, SearchCache>();
 
 /**
  * Detects the language of lyrics and adds it to the result.
